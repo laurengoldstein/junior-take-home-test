@@ -51,14 +51,12 @@ const Cell = styled.div`
   }
 `;
 
-export type PatientsSortDirection = "asc" | "desc" | null;
+export type SortDirection = "asc" | "desc" | null;
 
 interface Props {
   clinicalTrials: Array<any>;
-  patientsSortDirection: PatientsSortDirection;
-  setPatientsSortDirection: (
-    patientsSortDirection: PatientsSortDirection
-  ) => void;
+  patientsSortDirection: SortDirection;
+  setPatientsSortDirection: (patientsSortDirection: SortDirection) => void;
 }
 
 const ClinicalTrials: React.FC<Props> = ({
@@ -82,6 +80,7 @@ const ClinicalTrials: React.FC<Props> = ({
       <Table>
         <Header>
           <HeaderCell>site</HeaderCell>
+          <HeaderCell>city</HeaderCell>
           <HeaderCell>country</HeaderCell>
           <ClickableHeaderCell onClick={togglePatientsSortDirection}>
             patients{sortDirectionIndicator(patientsSortDirection)}
@@ -91,6 +90,13 @@ const ClinicalTrials: React.FC<Props> = ({
           {clinicalTrials.map((clinicalTrial) => (
             <Row key={clinicalTrial.site}>
               <Cell>{clinicalTrial.site}</Cell>
+              <Cell>
+                {clinicalTrial.city
+                  .toLowerCase()
+                  .split(" ")
+                  .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
+                  .join(" ")}
+              </Cell>
               <Cell>{clinicalTrial.country}</Cell>
               <Cell>{clinicalTrial.patients}</Cell>
             </Row>
@@ -101,9 +107,7 @@ const ClinicalTrials: React.FC<Props> = ({
   );
 };
 
-const sortDirectionIndicator = (
-  patientsSortDirection: PatientsSortDirection
-) => {
+const sortDirectionIndicator = (patientsSortDirection: SortDirection) => {
   if (patientsSortDirection === "asc") return "↑";
   if (patientsSortDirection === "desc") return "↓";
   return "";

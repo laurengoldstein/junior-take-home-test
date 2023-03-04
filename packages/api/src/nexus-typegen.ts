@@ -29,6 +29,7 @@ export interface NexusGenScalars {
 
 export interface NexusGenObjects {
   ClinicalTrial: { // root type
+    city?: string | null; // String
     country?: string | null; // String
     patients?: number | null; // Int
     site?: string | null; // String
@@ -48,6 +49,7 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
   ClinicalTrial: { // field return type
+    city: string | null; // String
     country: string | null; // String
     patients: number | null; // Int
     site: string | null; // String
@@ -59,6 +61,7 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenFieldTypeNames {
   ClinicalTrial: { // field return type name
+    city: 'String'
     country: 'String'
     patients: 'Int'
     site: 'String'

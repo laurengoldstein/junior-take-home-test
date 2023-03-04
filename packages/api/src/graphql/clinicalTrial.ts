@@ -5,6 +5,7 @@ export const ClinicalTrial = objectType({
   name: "ClinicalTrial",
   definition(t) {
     t.string("site");
+    t.string("city");
     t.string("country");
     t.int("patients");
   },

@@ -22,17 +22,18 @@ const clinicalTrialsQuery = gql`
   query ClinicalTrials($patientsSortDirection: String) {
     clinicalTrials(patientsSortDirection: $patientsSortDirection) {
       site
+      city
       country
       patients
     }
   }
 `;
 
-export type PatientsSortDirection = "asc" | "desc" | null;
+export type SortDirection = "asc" | "desc" | null;
 
 const App: React.FC = () => {
   const [patientsSortDirection, setPatientsSortDirection] =
-    useState<PatientsSortDirection>(null);
+    useState<SortDirection>(null);
 
   const { loading, error, data } = useQuery(clinicalTrialsQuery, {
     variables: { patientsSortDirection },
