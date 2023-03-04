@@ -19,13 +19,20 @@ export const ClinicalTrialQuery = extendType({
       type: "ClinicalTrial",
       args: {
         patientsSortDirection: nullable(stringArg()),
+        countriesSortDirection: nullable(stringArg()),
       },
-      resolve(_, { patientsSortDirection }) {
+      resolve(_, { patientsSortDirection, countriesSortDirection }) {
         if (patientsSortDirection === "desc") {
           return data.sort((a, b) => b.patients - a.patients);
         }
         if (patientsSortDirection === "asc") {
           return data.sort((a, b) => a.patients - b.patients);
+        }
+        if (countriesSortDirection === "desc") {
+          return data.sort((a, b) => b.country.localeCompare(a.country));
+        }
+        if (countriesSortDirection === "asc") {
+          return data.sort((a, b) => a.country.localeCompare(b.country));
         }
         return data;
       },

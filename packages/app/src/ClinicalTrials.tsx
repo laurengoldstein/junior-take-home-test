@@ -69,6 +69,7 @@ const ClinicalTrials: React.FC<Props> = ({
   setCountriesSortDirection,
 }: Props) => {
   const togglePatientsSortDirection = useCallback(() => {
+    setCountriesSortDirection(null);
     if (patientsSortDirection == null) {
       setPatientsSortDirection("asc");
     } else if (patientsSortDirection === "asc") {
@@ -79,6 +80,7 @@ const ClinicalTrials: React.FC<Props> = ({
   }, [patientsSortDirection, setPatientsSortDirection]);
 
   const toggleCountriesSortDirection = useCallback(() => {
+    setPatientsSortDirection(null);
     if (countriesSortDirection == null) {
       setCountriesSortDirection("asc");
     } else if (countriesSortDirection === "asc") {

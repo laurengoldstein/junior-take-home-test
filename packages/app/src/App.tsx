@@ -19,8 +19,14 @@ const Content = styled.div`
 `;
 
 const clinicalTrialsQuery = gql`
-  query ClinicalTrials($patientsSortDirection: String) {
-    clinicalTrials(patientsSortDirection: $patientsSortDirection) {
+  query ClinicalTrials(
+    $patientsSortDirection: String
+    $countriesSortDirection: String
+  ) {
+    clinicalTrials(
+      patientsSortDirection: $patientsSortDirection
+      countriesSortDirection: $countriesSortDirection
+    ) {
       site
       city
       country
