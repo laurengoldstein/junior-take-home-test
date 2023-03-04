@@ -21,10 +21,10 @@ export const ClinicalTrialQuery = extendType({
         patientsSortDirection: nullable(stringArg()),
       },
       resolve(_, { patientsSortDirection }) {
-        if (patientsSortDirection === "asc") {
+        if (patientsSortDirection === "desc") {
           return data.sort((a, b) => b.patients - a.patients);
         }
-        if (patientsSortDirection === "desc") {
+        if (patientsSortDirection === "asc") {
           return data.sort((a, b) => a.patients - b.patients);
         }
         return data;
