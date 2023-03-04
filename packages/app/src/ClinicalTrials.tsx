@@ -57,12 +57,16 @@ interface Props {
   clinicalTrials: Array<any>;
   patientsSortDirection: SortDirection;
   setPatientsSortDirection: (patientsSortDirection: SortDirection) => void;
+  countriesSortDirection: SortDirection;
+  setCountriesSortDirection: (countriesSortDirection: SortDirection) => void;
 }
 
 const ClinicalTrials: React.FC<Props> = ({
   clinicalTrials,
   patientsSortDirection,
   setPatientsSortDirection,
+  countriesSortDirection,
+  setCountriesSortDirection,
 }: Props) => {
   const togglePatientsSortDirection = useCallback(() => {
     if (patientsSortDirection == null) {
@@ -74,6 +78,16 @@ const ClinicalTrials: React.FC<Props> = ({
     }
   }, [patientsSortDirection, setPatientsSortDirection]);
 
+  const toggleCountriesSortDirection = useCallback(() => {
+    if (countriesSortDirection == null) {
+      setCountriesSortDirection("asc");
+    } else if (countriesSortDirection === "asc") {
+      setCountriesSortDirection("desc");
+    } else {
+      setCountriesSortDirection(null);
+    }
+  }, [countriesSortDirection, setCountriesSortDirection]);
+
   return (
     <Fragment>
       <h1>Clinical trials</h1>
@@ -81,7 +95,9 @@ const ClinicalTrials: React.FC<Props> = ({
         <Header>
           <HeaderCell>site</HeaderCell>
           <HeaderCell>city</HeaderCell>
-          <HeaderCell>country</HeaderCell>
+          <ClickableHeaderCell onClick={toggleCountriesSortDirection}>
+            country{sortDirectionIndicator(countriesSortDirection)}
+          </ClickableHeaderCell>
           <ClickableHeaderCell onClick={togglePatientsSortDirection}>
             patients{sortDirectionIndicator(patientsSortDirection)}
           </ClickableHeaderCell>
@@ -107,9 +123,9 @@ const ClinicalTrials: React.FC<Props> = ({
   );
 };
 
-const sortDirectionIndicator = (patientsSortDirection: SortDirection) => {
-  if (patientsSortDirection === "asc") return "↑";
-  if (patientsSortDirection === "desc") return "↓";
+const sortDirectionIndicator = (sortDirection: SortDirection) => {
+  if (sortDirection === "asc") return "↑";
+  if (sortDirection === "desc") return "↓";
   return "";
 };
 

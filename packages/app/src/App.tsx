@@ -35,8 +35,11 @@ const App: React.FC = () => {
   const [patientsSortDirection, setPatientsSortDirection] =
     useState<SortDirection>(null);
 
+  const [countriesSortDirection, setCountriesSortDirection] =
+    useState<SortDirection>(null);
+
   const { loading, error, data } = useQuery(clinicalTrialsQuery, {
-    variables: { patientsSortDirection },
+    variables: { patientsSortDirection, countriesSortDirection },
   });
 
   return (
@@ -46,6 +49,8 @@ const App: React.FC = () => {
           <ClinicalTrials
             patientsSortDirection={patientsSortDirection}
             setPatientsSortDirection={setPatientsSortDirection}
+            countriesSortDirection={countriesSortDirection}
+            setCountriesSortDirection={setCountriesSortDirection}
             clinicalTrials={data.clinicalTrials}
           />
         )}
