@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback } from "react";
+import React, { Fragment, useCallback, useState } from "react";
 import styled from "styled-components";
 
 const Table = styled.div`
@@ -59,6 +59,8 @@ interface Props {
   setPatientsSortDirection: (patientsSortDirection: SortDirection) => void;
   countriesSortDirection: SortDirection;
   setCountriesSortDirection: (countriesSortDirection: SortDirection) => void;
+  currentCountry: String;
+  setCurrentCountry: (currentCountry: String) => void;
 }
 
 const ClinicalTrials: React.FC<Props> = ({
@@ -67,6 +69,8 @@ const ClinicalTrials: React.FC<Props> = ({
   setPatientsSortDirection,
   countriesSortDirection,
   setCountriesSortDirection,
+  currentCountry,
+  setCurrentCountry,
 }: Props) => {
   const togglePatientsSortDirection = useCallback(() => {
     setCountriesSortDirection(null);
@@ -90,6 +94,13 @@ const ClinicalTrials: React.FC<Props> = ({
     }
   }, [countriesSortDirection, setCountriesSortDirection]);
 
+  const handleCountrySelect = useCallback(
+    (e: String) => {
+      setCurrentCountry(e);
+    },
+    [currentCountry, setCurrentCountry]
+  );
+
   return (
     <Fragment>
       <h1>Clinical trials</h1>
@@ -97,9 +108,24 @@ const ClinicalTrials: React.FC<Props> = ({
         <Header>
           <HeaderCell>site</HeaderCell>
           <HeaderCell>city</HeaderCell>
+
           <ClickableHeaderCell onClick={toggleCountriesSortDirection}>
             country{sortDirectionIndicator(countriesSortDirection)}
           </ClickableHeaderCell>
+          <form>
+            <label>Filter by country</label>
+            <select
+              id="country"
+              name="country"
+              onChange={(e) => handleCountrySelect(e.target.value)}
+            >
+              {clinicalTrials.map((t) => (
+                <option key={t.country} value={t.country}>
+                  {t.country}
+                </option>
+              ))}
+            </select>
+          </form>
           <ClickableHeaderCell onClick={togglePatientsSortDirection}>
             patients{sortDirectionIndicator(patientsSortDirection)}
           </ClickableHeaderCell>
