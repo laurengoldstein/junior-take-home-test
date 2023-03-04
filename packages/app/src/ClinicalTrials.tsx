@@ -1,5 +1,6 @@
 import React, { Fragment, useCallback, useState } from "react";
 import styled from "styled-components";
+import { JsxElement } from "typescript";
 
 const Table = styled.div`
   border-collapse: separate;
@@ -53,6 +54,13 @@ const Cell = styled.div`
 
 export type SortDirection = "asc" | "desc" | null;
 
+type clinicalTrial = {
+  country: String;
+  patients: Number;
+  city: String;
+  site: String;
+};
+
 interface Props {
   clinicalTrials: Array<any>;
   patientsSortDirection: SortDirection;
@@ -101,6 +109,23 @@ const ClinicalTrials: React.FC<Props> = ({
     [currentCountry, setCurrentCountry]
   );
 
+  const uniqueCountryList = (
+    clinicalTrials: clinicalTrial[]
+  ): JSX.Element[] => {
+    let countries: String[] = [];
+    clinicalTrials.forEach((c) => {
+      if (!countries.includes(c.country)) {
+        countries.push(c.country);
+      }
+    });
+    console.log("countries", countries);
+    return countries.sort().map((c) => (
+      <option key={c} value={c}>
+        {c}
+      </option>
+    ));
+  };
+
   return (
     <Fragment>
       <h1>Clinical trials</h1>
@@ -119,11 +144,7 @@ const ClinicalTrials: React.FC<Props> = ({
               name="country"
               onChange={(e) => handleCountrySelect(e.target.value)}
             >
-              {clinicalTrials.map((t) => (
-                <option key={t.country} value={t.country}>
-                  {t.country}
-                </option>
-              ))}
+              {uniqueCountryList(clinicalTrials)}
             </select>
           </form>
           <ClickableHeaderCell onClick={togglePatientsSortDirection}>
