@@ -75,6 +75,7 @@ export interface NexusGenArgTypes {
   Query: {
     clinicalTrials: { // args
       countriesSortDirection?: string | null; // String
+      filterByCountry?: string | null; // String
       patientsSortDirection?: string | null; // String
     }
   }

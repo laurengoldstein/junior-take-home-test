@@ -88,8 +88,8 @@ interface Props {
   setPatientsSortDirection: (patientsSortDirection: SortDirection) => void;
   countriesSortDirection: SortDirection;
   setCountriesSortDirection: (countriesSortDirection: SortDirection) => void;
-  currentCountry: string;
-  setCurrentCountry: (currentCountry: string) => void;
+  filterByCountry: string;
+  setFilterByCountry: (filterByCountry: string) => void;
 }
 
 const ClinicalTrials: React.FC<Props> = ({
@@ -98,8 +98,8 @@ const ClinicalTrials: React.FC<Props> = ({
   setPatientsSortDirection,
   countriesSortDirection,
   setCountriesSortDirection,
-  currentCountry,
-  setCurrentCountry,
+  filterByCountry,
+  setFilterByCountry,
 }: Props) => {
   const togglePatientsSortDirection = useCallback(() => {
     setCountriesSortDirection(null);
@@ -125,9 +125,9 @@ const ClinicalTrials: React.FC<Props> = ({
 
   const handleCountrySelect = useCallback(
     (e: string) => {
-      setCurrentCountry(e);
+      setFilterByCountry(e);
     },
-    [currentCountry, setCurrentCountry]
+    [filterByCountry, setFilterByCountry]
   );
 
   const uniqueCountryList = (clinicalTrials: ClinicalTrial[]) => {
