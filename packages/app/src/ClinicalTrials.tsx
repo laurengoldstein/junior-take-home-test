@@ -88,8 +88,8 @@ interface Props {
   setPatientsSortDirection: (patientsSortDirection: SortDirection) => void;
   countriesSortDirection: SortDirection;
   setCountriesSortDirection: (countriesSortDirection: SortDirection) => void;
-  currentCountry: String;
-  setCurrentCountry: (currentCountry: String) => void;
+  currentCountry: string;
+  setCurrentCountry: (currentCountry: string) => void;
 }
 
 const ClinicalTrials: React.FC<Props> = ({
