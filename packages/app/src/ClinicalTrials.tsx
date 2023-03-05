@@ -90,6 +90,7 @@ interface Props {
   setCountriesSortDirection: (countriesSortDirection: SortDirection) => void;
   filterByCountry: string;
   setFilterByCountry: (filterByCountry: string) => void;
+  allCountries: string[];
 }
 
 const ClinicalTrials: React.FC<Props> = ({
@@ -100,6 +101,7 @@ const ClinicalTrials: React.FC<Props> = ({
   setCountriesSortDirection,
   filterByCountry,
   setFilterByCountry,
+  allCountries,
 }: Props) => {
   const togglePatientsSortDirection = useCallback(() => {
     setCountriesSortDirection(null);
@@ -130,14 +132,8 @@ const ClinicalTrials: React.FC<Props> = ({
     [filterByCountry, setFilterByCountry]
   );
 
-  const uniqueCountryList = (clinicalTrials: ClinicalTrial[]) => {
-    let countries: string[] = [];
-    clinicalTrials.forEach((c) => {
-      if (!countries.includes(c.country)) {
-        countries.push(c.country);
-      }
-    });
-    return countries.sort().map((c) => (
+  const uniqueCountryList = (allCountries: string[]) => {
+    return allCountries.sort().map((c) => (
       <DropdownMenuOption key={c} value={c}>
         {c}
       </DropdownMenuOption>
@@ -156,14 +152,16 @@ const ClinicalTrials: React.FC<Props> = ({
               country{sortDirectionIndicator(countriesSortDirection)}
             </ClickableHeaderCell>
             <DropdownMenu>
-              <DropdownMenuLabel>Filter by country</DropdownMenuLabel>
-              <br />
+              {/* <DropdownMenuLabel>Filter by country</DropdownMenuLabel>
+              <br /> */}
               <DropdownMenuSelect
                 id="country"
                 name="country"
+                value={filterByCountry}
                 onChange={(e) => handleCountrySelect(e.target.value)}
               >
-                {uniqueCountryList(clinicalTrials)}
+                <DropdownMenuOption>Filter by country</DropdownMenuOption>
+                {uniqueCountryList(allCountries)}
               </DropdownMenuSelect>
             </DropdownMenu>
           </HeaderCell>

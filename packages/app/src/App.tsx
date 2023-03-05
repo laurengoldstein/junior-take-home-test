@@ -1,5 +1,5 @@
 import { useQuery, gql } from "@apollo/client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import ClinicalTrials from "./ClinicalTrials";
@@ -39,6 +39,13 @@ const clinicalTrialsQuery = gql`
 
 export type SortDirection = "asc" | "desc" | null;
 
+type ClinicalTrial = {
+  country: string;
+  patients: number;
+  city: string;
+  site: string;
+};
+
 const App: React.FC = () => {
   const [patientsSortDirection, setPatientsSortDirection] =
     useState<SortDirection>(null);
@@ -47,6 +54,7 @@ const App: React.FC = () => {
     useState<SortDirection>(null);
 
   const [filterByCountry, setFilterByCountry] = useState<string>("");
+  const [allCountries, setAllCountries] = useState<string[]>([]);
 
   const { loading, error, data } = useQuery(clinicalTrialsQuery, {
     variables: {
@@ -55,6 +63,23 @@ const App: React.FC = () => {
       filterByCountry,
     },
   });
+
+  const getAllCountries = (clinicalTrials: ClinicalTrial[]) => {
+    let countries: string[] = [];
+    clinicalTrials.forEach((c) => {
+      if (!countries.includes(c.country)) {
+        countries.push(c.country);
+      }
+    });
+
+    setAllCountries(countries);
+  };
+
+  useEffect(() => {
+    if (data && !allCountries.length) {
+      getAllCountries(data.clinicalTrials);
+    }
+  }, [data]);
 
   return (
     <Layout>
@@ -67,6 +92,7 @@ const App: React.FC = () => {
             setCountriesSortDirection={setCountriesSortDirection}
             filterByCountry={filterByCountry}
             setFilterByCountry={setFilterByCountry}
+            allCountries={allCountries}
             clinicalTrials={data.clinicalTrials}
           />
         )}
