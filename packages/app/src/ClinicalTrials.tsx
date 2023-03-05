@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState } from "react";
+import React, { Fragment, useCallback } from "react";
 import styled from "styled-components";
 import { JsxElement } from "typescript";
 
@@ -52,13 +52,34 @@ const Cell = styled.div`
   }
 `;
 
+const DropdownMenu = styled.form`
+  padding: 0px 32px;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: #b5b6ba;
+  }
+`;
+
+const DropdownMenuLabel = styled.label`
+  border-radius: 4px;
+`;
+
+const DropdownMenuSelect = styled.select`
+  border-radius: 4px;
+`;
+
+const DropdownMenuOption = styled.option`
+  border-radius: 4px;
+`;
+
 export type SortDirection = "asc" | "desc" | null;
 
-type clinicalTrial = {
-  country: String;
-  patients: Number;
-  city: String;
-  site: String;
+type ClinicalTrial = {
+  country: string;
+  patients: number;
+  city: string;
+  site: string;
 };
 
 interface Props {
@@ -103,26 +124,23 @@ const ClinicalTrials: React.FC<Props> = ({
   }, [countriesSortDirection, setCountriesSortDirection]);
 
   const handleCountrySelect = useCallback(
-    (e: String) => {
+    (e: string) => {
       setCurrentCountry(e);
     },
     [currentCountry, setCurrentCountry]
   );
 
-  const uniqueCountryList = (
-    clinicalTrials: clinicalTrial[]
-  ): JSX.Element[] => {
-    let countries: String[] = [];
+  const uniqueCountryList = (clinicalTrials: ClinicalTrial[]) => {
+    let countries: string[] = [];
     clinicalTrials.forEach((c) => {
       if (!countries.includes(c.country)) {
         countries.push(c.country);
       }
     });
-    console.log("countries", countries);
     return countries.sort().map((c) => (
-      <option key={c} value={c}>
+      <DropdownMenuOption key={c} value={c}>
         {c}
-      </option>
+      </DropdownMenuOption>
     ));
   };
 
@@ -133,20 +151,23 @@ const ClinicalTrials: React.FC<Props> = ({
         <Header>
           <HeaderCell>site</HeaderCell>
           <HeaderCell>city</HeaderCell>
+          <HeaderCell>
+            <ClickableHeaderCell onClick={toggleCountriesSortDirection}>
+              country{sortDirectionIndicator(countriesSortDirection)}
+            </ClickableHeaderCell>
+            <DropdownMenu>
+              <DropdownMenuLabel>Filter by country</DropdownMenuLabel>
+              <br />
+              <DropdownMenuSelect
+                id="country"
+                name="country"
+                onChange={(e) => handleCountrySelect(e.target.value)}
+              >
+                {uniqueCountryList(clinicalTrials)}
+              </DropdownMenuSelect>
+            </DropdownMenu>
+          </HeaderCell>
 
-          <ClickableHeaderCell onClick={toggleCountriesSortDirection}>
-            country{sortDirectionIndicator(countriesSortDirection)}
-          </ClickableHeaderCell>
-          <form>
-            <label>Filter by country</label>
-            <select
-              id="country"
-              name="country"
-              onChange={(e) => handleCountrySelect(e.target.value)}
-            >
-              {uniqueCountryList(clinicalTrials)}
-            </select>
-          </form>
           <ClickableHeaderCell onClick={togglePatientsSortDirection}>
             patients{sortDirectionIndicator(patientsSortDirection)}
           </ClickableHeaderCell>
