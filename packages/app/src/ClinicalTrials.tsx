@@ -127,7 +127,11 @@ const ClinicalTrials: React.FC<Props> = ({
 
   const handleCountrySelect = useCallback(
     (e: string) => {
-      setFilterByCountry(e);
+      if (e === "Filter by country") {
+        setFilterByCountry("");
+      } else {
+        setFilterByCountry(e);
+      }
     },
     [filterByCountry, setFilterByCountry]
   );
