@@ -20,14 +20,14 @@ export const ClinicalTrialQuery = extendType({
       args: {
         patientsSortDirection: nullable(stringArg()),
         countriesSortDirection: nullable(stringArg()),
-        filterByCountry: nullable(stringArg()),
+        selectedCountry: nullable(stringArg()),
       },
       resolve(
         _,
-        { patientsSortDirection, countriesSortDirection, filterByCountry }
+        { patientsSortDirection, countriesSortDirection, selectedCountry }
       ) {
-        if (filterByCountry) {
-          return data.filter((ct) => ct.country === filterByCountry);
+        if (selectedCountry) {
+          return data.filter((ct) => ct.country === selectedCountry);
         }
         if (patientsSortDirection === "desc") {
           return data.sort((a, b) => b.patients - a.patients);

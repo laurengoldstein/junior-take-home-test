@@ -22,12 +22,12 @@ const clinicalTrialsQuery = gql`
   query ClinicalTrials(
     $patientsSortDirection: String
     $countriesSortDirection: String
-    $filterByCountry: String
+    $selectedCountry: String
   ) {
     clinicalTrials(
       patientsSortDirection: $patientsSortDirection
       countriesSortDirection: $countriesSortDirection
-      filterByCountry: $filterByCountry
+      selectedCountry: $selectedCountry
     ) {
       site
       city
@@ -53,14 +53,14 @@ const App: React.FC = () => {
   const [countriesSortDirection, setCountriesSortDirection] =
     useState<SortDirection>(null);
 
-  const [filterByCountry, setFilterByCountry] = useState<string>("");
+  const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [allCountries, setAllCountries] = useState<string[]>([]);
 
   const { loading, error, data } = useQuery(clinicalTrialsQuery, {
     variables: {
       patientsSortDirection,
       countriesSortDirection,
-      filterByCountry,
+      selectedCountry,
     },
   });
 
@@ -71,7 +71,6 @@ const App: React.FC = () => {
         countries.push(c.country);
       }
     });
-
     setAllCountries(countries);
   };
 
@@ -90,8 +89,8 @@ const App: React.FC = () => {
             setPatientsSortDirection={setPatientsSortDirection}
             countriesSortDirection={countriesSortDirection}
             setCountriesSortDirection={setCountriesSortDirection}
-            filterByCountry={filterByCountry}
-            setFilterByCountry={setFilterByCountry}
+            selectedCountry={selectedCountry}
+            setSelectedCountry={setSelectedCountry}
             allCountries={allCountries}
             clinicalTrials={data.clinicalTrials}
           />

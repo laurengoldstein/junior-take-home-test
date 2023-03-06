@@ -1,6 +1,5 @@
 import React, { Fragment, useCallback } from "react";
 import styled from "styled-components";
-import { JsxElement } from "typescript";
 
 const Table = styled.div`
   border-collapse: separate;
@@ -61,10 +60,6 @@ const DropdownMenu = styled.form`
   }
 `;
 
-const DropdownMenuLabel = styled.label`
-  border-radius: 4px;
-`;
-
 const DropdownMenuSelect = styled.select`
   border-radius: 4px;
 `;
@@ -88,8 +83,8 @@ interface Props {
   setPatientsSortDirection: (patientsSortDirection: SortDirection) => void;
   countriesSortDirection: SortDirection;
   setCountriesSortDirection: (countriesSortDirection: SortDirection) => void;
-  filterByCountry: string;
-  setFilterByCountry: (filterByCountry: string) => void;
+  selectedCountry: string;
+  setSelectedCountry: (selectedCountry: string) => void;
   allCountries: string[];
 }
 
@@ -99,8 +94,8 @@ const ClinicalTrials: React.FC<Props> = ({
   setPatientsSortDirection,
   countriesSortDirection,
   setCountriesSortDirection,
-  filterByCountry,
-  setFilterByCountry,
+  selectedCountry,
+  setSelectedCountry,
   allCountries,
 }: Props) => {
   const togglePatientsSortDirection = useCallback(() => {
@@ -128,12 +123,12 @@ const ClinicalTrials: React.FC<Props> = ({
   const handleCountrySelect = useCallback(
     (e: string) => {
       if (e === "Filter by country") {
-        setFilterByCountry("");
+        setSelectedCountry("");
       } else {
-        setFilterByCountry(e);
+        setSelectedCountry(e);
       }
     },
-    [filterByCountry, setFilterByCountry]
+    [selectedCountry, setSelectedCountry]
   );
 
   const uniqueCountryList = (allCountries: string[]) => {
@@ -161,7 +156,7 @@ const ClinicalTrials: React.FC<Props> = ({
               <DropdownMenuSelect
                 id="country"
                 name="country"
-                value={filterByCountry}
+                value={selectedCountry}
                 onChange={(e) => handleCountrySelect(e.target.value)}
               >
                 <DropdownMenuOption>Filter by country</DropdownMenuOption>
